@@ -3,7 +3,8 @@ const { adminAuth } = require("./middlewares/auth");
 
 const app = express();
 
-app.get("/test", adminAuth);
+//Handles authentication for all / route
+app.use("/", adminAuth);
 
 app.get("/test", (req, res, next) => {
   // next();
@@ -17,4 +18,11 @@ app.post("/test", (req, res) => {
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000...");
+});
+
+//Handles error and order matters
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something went wrong");
+  }
 });
