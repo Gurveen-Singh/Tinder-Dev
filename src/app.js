@@ -1,9 +1,18 @@
 const express = require("express");
+const { adminAuth } = require("./middlewares/auth");
 
 const app = express();
 
-app.use("/test", (req, res) => {
+app.get("/test", adminAuth);
+
+app.get("/test", (req, res, next) => {
+  // next();
   res.send("Hello World!");
+});
+
+app.post("/test", (req, res) => {
+  console.log(req);
+  return res.send(req.body);
 });
 
 app.listen(3000, () => {
